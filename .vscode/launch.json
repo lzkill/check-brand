@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug checker.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/checker.py",
+            "console": "integratedTerminal",
+            "args": ["<", "${workspaceFolder}/words.txt"]
+        }
+    ]
+}
