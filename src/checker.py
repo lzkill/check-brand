@@ -11,7 +11,7 @@ def is_instagram_available(username):
         user_id_start = response.text.find('"profilePage_', 0) + len('"profilePage_')
         user_id_end = response.text.find('"', user_id_start)
         user_id = response.text[user_id_start:user_id_end]
-        return user_id.isdigit()
+        return not user_id.isdigit()
     else:
         return None
 
