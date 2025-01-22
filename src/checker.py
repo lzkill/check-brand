@@ -6,14 +6,17 @@ import time
 def is_instagram_available(username):
     """Check if an Instagram username is available by parsing the HTML."""
     url = f"https://www.instagram.com/{username}/"
-    response = requests.get(url)
-    if response.status_code == 200:
-        user_id_start = response.text.find('"profilePage_', 0) + len('"profilePage_')
-        user_id_end = response.text.find('"', user_id_start)
-        user_id = response.text[user_id_start:user_id_end]
-        return not user_id.isdigit()
-    else:
-        return None
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            user_id_start = response.text.find('"profilePage_', 0) + len('"profilePage_')
+            user_id_end = response.text.find('"', user_id_start)
+            user_id = response.text[user_id_start:user_id_end]
+            return not user_id.isdigit()
+        else:
+            return False
+    except requests.exceptions.RequestException:
+        return False
 
 def is_domain_available(domain):
     """Check if a domain is available using DNS."""
