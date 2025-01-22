@@ -9,8 +9,8 @@ PROXY_HOST = "localhost"
 PROXY_PORT = 1338  # Replace with your SOCKS5 proxy port
 
 # Set up SOCKS5 proxy
-socks.set_default_proxy(socks.SOCKS5, PROXY_HOST, PROXY_PORT)
-socket.socket = socks.socksocket
+#socks.set_default_proxy(socks.SOCKS5, PROXY_HOST, PROXY_PORT)
+#socket.socket = socks.socksocket
 
 def is_instagram_available(username):
     """Check if an Instagram username is available by parsing the HTML."""
