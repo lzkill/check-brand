@@ -15,15 +15,14 @@ socket.socket = socks.socksocket
 def is_instagram_available(username):
     """Check if an Instagram username is available by parsing the HTML."""
     url = f"https://www.instagram.com/{username}/"
-    try:
-        response = requests.get(url, timeout=10)
-        if response.status_code == 200:
-            if "Sorry, this page isn't available." in response.text:
-                return True
-            return False
-        return response.status_code == 404
-    except requests.RequestException:
-        return False
+    response = requests.get(url)
+    if response.status_code == 200:
+        user_id_start = response.text.find('"profilePage_', 0) + len('"profilePage_')
+        user_id_end = response.text.find('"', user_id_start)
+        user_id = response.text[user_id_start:user_id_end]
+        return user_id.isdigit()
+    else:
+        return None
 
 def is_domain_available(domain):
     """Check if a domain is available using DNS."""
