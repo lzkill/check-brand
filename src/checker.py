@@ -35,7 +35,7 @@ def main():
             domain_available = is_domain_available(f"{word}.com.br")
 
             if instagram_available and domain_available:
-                print(word)
+                print(word, flush=True)
             
             time.sleep(2)
 
