@@ -2,7 +2,9 @@ import requests
 import socket
 import sys
 import time
-import re
+from bs4 import BeautifulSoup
+from datetime import datetime
+
 
 def is_instagram_available(username):
     """Check if an Instagram username is available by parsing the HTML."""
@@ -10,8 +12,9 @@ def is_instagram_available(username):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            match = re.search(r'"profile_id"\s*:\s*"(\d+)"', response.text)
-            if not match:
+            soup = BeautifulSoup(response.text, 'html.parser')
+            title_tag = soup.find_all('meta', property="og:title")[-1] if soup.find_all('meta', property="og:title") else None
+            if not title_tag:
                 return True
         return False
     except requests.exceptions.RequestException:
