@@ -2,6 +2,7 @@ import requests
 import socket
 import sys
 import time
+import re
 
 def is_instagram_available(username):
     """Check if an Instagram username is available by parsing the HTML."""
@@ -9,12 +10,10 @@ def is_instagram_available(username):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            user_id_start = response.text.find('"profilePage_', 0) + len('"profilePage_')
-            user_id_end = response.text.find('"', user_id_start)
-            user_id = response.text[user_id_start:user_id_end]
-            return not user_id.isdigit()
-        else:
-            return False
+            match = re.search(r'"profile_id"\s*:\s*"(\d+)"', response.text)
+            if not match:
+                return True
+        return False
     except requests.exceptions.RequestException:
         return False
 
