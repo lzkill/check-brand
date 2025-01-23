@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/src/checker.py",
             "console": "integratedTerminal",
-            "args": ["<", "${workspaceFolder}/debug.txt"]
+            "args": ["<", "${workspaceFolder}/words/debug.txt"]
         }
     ]
 }

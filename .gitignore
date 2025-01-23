@@ -2,4 +2,4 @@ venv/
 .venv/
 env/
 .env/
-available.txt
+words/available.txt

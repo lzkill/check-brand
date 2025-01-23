@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCAL_FILE="available.txt"
+LOCAL_FILE="words/available.txt"
 TEMP_FILE="/tmp/available.txt"
 REMOTE_USER="user"
 REMOTE_HOST="host"

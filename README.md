@@ -6,4 +6,4 @@ source venv/bin/activate && \
 pip install -r requirements.txt  
 ```
 
-`shuf words.txt | python3 src/checker.py | tee -a available.txt`
+`shuf words/english.txt | python3 src/checker.py | tee -a words/available.txt`
