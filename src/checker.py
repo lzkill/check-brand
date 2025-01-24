@@ -36,7 +36,7 @@ def main():
             if instagram_available and domain_available:
                 print(word, flush=True)
             
-            time.sleep(2)
+            time.sleep(5)
 
 if __name__ == "__main__":
     main()
