@@ -1,24 +1,19 @@
-import requests
 import socket
 import sys
 import time
-from bs4 import BeautifulSoup
-from datetime import datetime
+import instaloader
 
 
 def is_instagram_available(username):
-    """Check if an Instagram username is available by parsing the HTML."""
-    url = f"https://www.instagram.com/{username}/"
+    """Check if an Instagram username is available."""
+    L = instaloader.Instaloader(quiet=True)
     try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, 'html.parser')
-            title_tag = soup.find_all('meta', property="og:title")[-1] if soup.find_all('meta', property="og:title") else None
-            if not title_tag:
-                return True
+        # Try to fetch the profile with the username
+        L.context.max_connection_attempts = 1
+        L.check_profile_id(username)
         return False
-    except requests.exceptions.RequestException:
-        return False
+    except Exception:
+        return True
 
 def is_domain_available(domain):
     """Check if a domain is available using DNS."""
