@@ -66,10 +66,10 @@ def main():
 
             if word:  # Ignore empty lines
                 try:
-                    is_instagram_available = is_instagram_available(word)
+                    instagram_available = is_instagram_available(word)
                     available_domain = get_available_domain(word)
 
-                    if is_instagram_available and available_domain:
+                    if instagram_available and available_domain:
                         print(
                             f'<a href="http://{word}.{available_domain}/" target="_blank">{word}.{available_domain}</a> | '
                             f'<a href="https://www.instagram.com/{word}/" target="_blank">instagram.com/{word}</a><br>',
