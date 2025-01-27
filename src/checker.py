@@ -1,21 +1,33 @@
 import socket
 import sys
 import time
-import instaloader
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 def is_instagram_available(username):
-    """Check if an Instagram username is available."""
-    L = instaloader.Instaloader(save_metadata=False, quiet=True)
+    options = Options()
+    options.add_argument("--headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     try:
-        L.context.max_connection_attempts = 1
-        instaloader.Profile.from_username(L.context, username)
-        return False  # Username exists
-    except instaloader.exceptions.ProfileNotExistsException:
-        return True  # Username is available
+        url = f"https://www.instagram.com/{username}/"
+        driver.get(url)
+        time.sleep(5)
+
+        if "Instagram photos and videos" in driver.page_source:
+            return False
+        return True
     except Exception as e:
-        #print(f"Error checking username: {e}")
-        return None
+        print(f"Error checking Instagram for username '{username}': {e}", file=sys.stderr)
+        return False
+    finally:
+        driver.quit()
+
 
 def is_domain_available(domain):
     """Check if a domain is available using DNS."""
@@ -24,19 +36,27 @@ def is_domain_available(domain):
         return False  # Domain exists
     except socket.gaierror:
         return True  # Domain does not exist
+    except Exception as e:
+        print(f"Error checking domain '{domain}': {e}", file=sys.stderr)
+        return False
+
 
 def main():
     for line in sys.stdin:
         word = line.strip()
 
         if word:  # Ignore empty lines
-            instagram_available = is_instagram_available(word)
-            domain_available = is_domain_available(f"{word}.com.br")
+            try:
+                instagram_available = is_instagram_available(word)
+                domain_available = is_domain_available(f"{word}.com.br")
 
-            if instagram_available and domain_available:
-                print(word, flush=True)
+                if instagram_available and domain_available:
+                    print(word, flush=True)
+            except Exception as e:
+                print(f"Unexpected error for word '{word}': {e}", file=sys.stderr)
             
             time.sleep(5)
+
 
 if __name__ == "__main__":
     main()
