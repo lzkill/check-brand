@@ -42,25 +42,28 @@ def is_domain_available(domain):
 
 
 def main():
-    for line in sys.stdin:
-        word = line.strip()
+    try:
+        for line in sys.stdin:
+            word = line.strip()
 
-        if word:  # Ignore empty lines
-            try:
-                instagram_available = is_instagram_available(word)
-                domain_available = is_domain_available(f"{word}.com.br")
+            if word:  # Ignore empty lines
+                try:
+                    instagram_available = is_instagram_available(word)
+                    domain_available = is_domain_available(f"{word}.com.br")
 
-                if instagram_available and domain_available:
-                    print(
-                        f'<a href="http://{word}.com.br/" target="_blank">{word}.com.br</a> | '
-                        f'<a href="https://www.instagram.com/{word}/" target="_blank">instagram.com/{word}</a><br>',
-                        flush=True,
-                    )
-                    print()  # For human readability if reviewing the file directly
-            except Exception as e:
-                print(f"Unexpected error for word '{word}': {e}", file=sys.stderr)
-            
-            time.sleep(5)
+                    if instagram_available and domain_available:
+                        print(
+                            f'<a href="http://{word}.com.br/" target="_blank">{word}.com.br</a> | '
+                            f'<a href="https://www.instagram.com/{word}/" target="_blank">instagram.com/{word}</a><br>',
+                            flush=True,
+                        )
+                        print()  # For human readability if reviewing the file directly
+                except Exception as e:
+                    print(f"Unexpected error for word '{word}': {e}", file=sys.stderr)
+                
+                time.sleep(5)
+    except KeyboardInterrupt:
+        sys.exit(0)  # Exit cleanly
 
 
 if __name__ == "__main__":
