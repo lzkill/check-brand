@@ -1,10 +1,10 @@
 #!/bin/bash
 
-LOCAL_FILE="~/Desktop/available.html"
+LOCAL_FILE="$HOME/Desktop/available.html"
 TEMP_FILE="/tmp/available.html"
 REMOTE_USER="user"
 REMOTE_HOST="host"
-REMOTE_PATH="~/Desktop/available.html"
+REMOTE_PATH="$HOME/Desktop/available.html"
 
 inotifywait -m "$LOCAL_FILE" -e modify |
     while read path action file; do
