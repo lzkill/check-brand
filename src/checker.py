@@ -7,11 +7,19 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-def is_instagram_available(username):
+def is_instagram_available(username, proxy_address=None):
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+
+    # SOCKS5 proxy
+    if proxy_address:
+        prox = Proxy()
+        prox.proxy_type = ProxyType.MANUAL
+        prox.socks_proxy = proxy_address
+        prox.socks_version = 5
+        options.proxy = prox
 
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
     try:
@@ -48,7 +56,7 @@ def main():
 
             if word:  # Ignore empty lines
                 try:
-                    instagram_available = is_instagram_available(word)
+                    instagram_available = is_instagram_available(word, proxy_address="localhost:9050")
                     domain_available = is_domain_available(f"{word}.com.br")
 
                     if instagram_available and domain_available:
