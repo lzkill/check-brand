@@ -51,7 +51,7 @@ def main():
                 domain_available = is_domain_available(f"{word}.com.br")
 
                 if instagram_available and domain_available:
-                    print(word, flush=True)
+                    print(f'<a href="http://{word}.com.br/" target="_blank">{word}.com.br</a> | <a href="https://www.instagram.com/{word}/" target="_blank">instagram.com/{word}</a>', flush=True)
             except Exception as e:
                 print(f"Unexpected error for word '{word}': {e}", file=sys.stderr)
             
