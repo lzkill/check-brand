@@ -38,31 +38,40 @@ def is_instagram_available(username, proxy_address=None):
         driver.quit()
 
 
-def is_domain_available(domain):
+def is_domain_available(username, domain):
     """Check if a domain is available using DNS."""
     try:
-        socket.gethostbyname(domain)
+        socket.gethostbyname(f"{username}.{domain}")
         return False  # Domain exists
     except socket.gaierror:
         return True  # Domain does not exist
     except Exception as e:
-        print(f"Error checking domain '{domain}': {e}", file=sys.stderr)
+        print(f"Error checking domain '{username}.{domain}': {e}", file=sys.stderr)
         return False
 
 
-def main():
+def get_available_domain(word):
+    """Check if domains are available."""
+    if is_domain_available(f"{word}", "com.br"):
+        return "com.br"
+    elif is_domain_available(f"{word}", "shop"):
+        return "shop"
+    return None
+
+
+def main(): 
     try:
         for line in sys.stdin:
             word = line.strip()
 
             if word:  # Ignore empty lines
                 try:
-                    instagram_available = is_instagram_available(word)
-                    domain_available = is_domain_available(f"{word}.com.br")
+                    is_instagram_available = is_instagram_available(word)
+                    available_domain = get_available_domain(word)
 
-                    if instagram_available and domain_available:
+                    if is_instagram_available and available_domain:
                         print(
-                            f'<a href="http://{word}.com.br/" target="_blank">{word}.com.br</a> | '
+                            f'<a href="http://{word}.{available_domain}/" target="_blank">{word}.{available_domain}</a> | '
                             f'<a href="https://www.instagram.com/{word}/" target="_blank">instagram.com/{word}</a><br>',
                             flush=True,
                         )
