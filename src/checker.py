@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
 def is_instagram_available(username, proxy_address=None):
@@ -56,7 +57,7 @@ def main():
 
             if word:  # Ignore empty lines
                 try:
-                    instagram_available = is_instagram_available(word, proxy_address="localhost:9050")
+                    instagram_available = is_instagram_available(word, proxy_address="localhost:1337")
                     domain_available = is_domain_available(f"{word}.com.br")
 
                     if instagram_available and domain_available:
